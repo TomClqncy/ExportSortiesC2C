@@ -47,7 +47,9 @@ if response.status_code == 200:
         
         mon_parsing_cotation3 = "$['documents'][" + str(i) + "]['labande_global_rating']"
         cotation3 = jp.parse(mon_parsing_cotation3)
-        result_cotation3 = cotation2.find(json_object)
+        result_cotation3 = cotation3.find(json_object)
+        
+        
         
         print(result_title[0].value,";",result_document_ID[0].value,";",result_date[0].value,";"
               ,result_activite[0].value)
@@ -57,7 +59,7 @@ if response.status_code == 200:
         except IndexError:
             if result_activite == "ski_touring":
                 {
-                print()
+                print(result_cotation3[0].value)
             }
             if result_activite == "hiking":
                 {
