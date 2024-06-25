@@ -55,8 +55,14 @@ if response.status_code == 200:
         try : 
             print(result_cotation[0].value)
         except IndexError:
-            print()
-            
+            if result_activite == "ski_touring":
+                {
+                print()
+            }
+            if result_activite == "hiking":
+                {
+                print()
+            }
         
 
     #f = open('/Users/jb.marzolf/Downloads/raph/sortieC2C-api.txt','a')
