@@ -4,8 +4,8 @@ import json
 import jsonpath_ng as jp
 import ast
 
-url = 'https://api.camptocamp.org/outings?u=1261807'
-nb_sorties = 30
+url = 'https://api.camptocamp.org/outings/1635187'
+nb_sorties = 1
 #url = url + str(nb_sorties)
 response = requests.get(url)
 
@@ -33,10 +33,10 @@ if response.status_code == 200:
         activite = jp.parse(mon_parsing_activite)
         result_activite = activite.find(json_object)
         
-        mon_parsing_cotation = "$['documents'][" + str(i) + "]['global_rating']"
+        mon_parsing_cotation = "$['documents'][" + str(i) + "]['weather']"
         cotation = jp.parse(mon_parsing_cotation)
         result_cotation = cotation.find(json_object)
-        print("hello",i+ 1)
+        print("hello",i)
         
         print(result_title[0].value,";",result_document_ID[0].value,";",result_date[0].value,";"
               ,result_activite[0].value,";",result_cotation[0].value)
