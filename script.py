@@ -4,7 +4,7 @@ import json
 import jsonpath_ng as jp
 import ast
 
-url = 'https://api.camptocamp.org/outings?u=1261807'
+url = 'https://api.camptocamp.org/outings?=skitouring'
 nb_sorties = 30
 #url = url + str(nb_sorties)
 response = requests.get(url)
@@ -36,15 +36,29 @@ if response.status_code == 200:
         mon_parsing_cotation = "$['documents'][" + str(i) + "]['global_rating']"
         cotation = jp.parse(mon_parsing_cotation)
         result_cotation = cotation.find(json_object)
-        print("hello",i+ 1)
+
+        mon_parsing_cotation1 = "$['documents'][" + str(i) + "]['rock_free_rating']"
+        cotation1 = jp.parse(mon_parsing_cotation1)
+        result_cotation1 = cotation1.find(json_object)
+        
+        mon_parsing_cotation2 = "$['documents'][" + str(i) + "]['labande_global_rating']"
+        cotation2 = jp.parse(mon_parsing_cotation2)
+        result_cotation2 = cotation2.find(json_object)
+        
+        mon_parsing_cotation3 = "$['documents'][" + str(i) + "]['labande_global_rating']"
+        cotation3 = jp.parse(mon_parsing_cotation3)
+        result_cotation3 = cotation2.find(json_object)
         
         print(result_title[0].value,";",result_document_ID[0].value,";",result_date[0].value,";"
-              ,result_activite[0].value,";",result_cotation[0].value)
-    
-    
+              ,result_activite[0].value)
+        
+        try : 
+            print(result_cotation[0].value)
+        except IndexError:
+            print()
+            
+        
+
     #f = open('/Users/jb.marzolf/Downloads/raph/sortieC2C-api.txt','a')
     #f.write(page_text)
-    #f.close()
-    
-else:
-    print(f"Erreur {response.status_code}")
+    #f.close() 
