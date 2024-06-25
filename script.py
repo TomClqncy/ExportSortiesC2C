@@ -9,7 +9,7 @@ if response.status_code == 200:
     soup = BeautifulSoup(response.text, 'html.parser')
     page_text = soup.get_text(separator=' ', strip=True)
     json_object = json.loads(page_text)
-    data = {page_text}
+    data = {json_object}
     pretty_json = json.dumps(data, indent=4)
     
     
