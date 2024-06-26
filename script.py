@@ -5,6 +5,11 @@ import jsonpath_ng as jp
 import ast
 import math
 
+def ecrire_fichier(fichier,valeur):
+    fichier.write(";")
+    fichier.write(valeur)
+    fichier.write("\n")
+
 url = 'https://api.camptocamp.org/outings?'
 nb_sorties = 30
 response = requests.get(url)
@@ -88,10 +93,16 @@ if response.status_code == 200:
         
         try : 
             Sortie_str = result_cotation[0].value,";",result_title[0].value,";",result_document_ID[0].value,";",result_date[0].value,";",result_activite[0].value,";", long ,";", lat ,"\n" 
+            if result_cotation[0].value: f.write(result_cotation[0].value)
+            ecrire_fichier(f,result_cotation[0].value)
+            ecrire_fichier(f,result_title[0].value)
+            ecrire_fichier(f,result_document_ID[0].value)
+            ecrire_fichier(f,result_date[0].value)
+            
         except IndexError:
 
             if act == "['skitouring']":
-                Sortie_str = result_cotation2[0].value,"/",result_cotation5[0].value,";",result_title[0].value,";",result_document_ID[0].value,";",result_date[0].value,";",result_activite[0].value,";", long ,";", lat,"\n" 
+                Sortie_str = result_cotation2[0].value,";",result_cotation5[0].value,";",result_title[0].value,";",result_document_ID[0].value,";",result_date[0].value,";",result_activite[0].value,";", long ,";", lat,"\n" 
                 
             elif act == "['hiking']":
                 Sortie_str = result_cotation3[0].value,";",result_title[0].value,";",result_document_ID[0].value,";",result_date[0].value,";",result_activite[0].value,";", long ,";", lat,"\n" 
@@ -113,7 +124,9 @@ if response.status_code == 200:
             
             else :
                 Sortie_str = "Cotation non rensenseignée",";",result_title[0].value,";",result_document_ID[0].value,";",result_date[0].value,";",result_activite[0].value,";", long ,";", lat,"\n" 
-            f.write(str(Sortie_str))
-print("effectuer")
+        f.write(str(Sortie_str))
+        f.write("\n")
+        print(str(i))
 f.close()   
+print("effectue")
   
