@@ -73,14 +73,24 @@ if response.status_code == 200:
         cotation9 = jp.parse(mon_parsing_cotation9)
         result_cotation9 = cotation9.find(json_object)
         
-        mon_parsing_coordonnee = "$['documents'][" + str(i) + "]['geometry']['geom']",
-        coordonee = jp.parse(mon_parsing_coordonnee)
-        result_coordonnee= coordonee.find(json_object)
-        geom = str(result_coordonnee[0].value)
+        mon_parsing_geom = "$['documents'][" + str(i) + "]['geometry']['geom']"
+        geom = jp.parse(mon_parsing_geom)
+        result_geom= geom.find(json_object)
+        
+        mon_parsing_lat = "$.coordinates[0]"
+        mon_parsing_long = "$.coordinates[1]"
+        #lat = jp.parse(mon_parsing_lat)
+        #long = jp.parse(mon_parsing_long)
+        result_lat = mon_parsing_lat.find(result_geom)
+        result_long = mon_parsing_long.find(result_geom)
+        #lat = str(result_lat)
+        #long = str(result_long)
+        
         
         
         print(result_title[0].value,";",result_document_ID[0].value,";",result_date[0].value,";"
-              ,result_activite[0].value,";",geom)
+              ,result_activite[0].value,";")
+        print(type(result_long[0].value))
         act = str(result_activite[0].value)
         
         
