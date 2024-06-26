@@ -4,7 +4,7 @@ import json
 import jsonpath_ng as jp
 import ast
 
-url = 'https://api.camptocamp.org/outings?'
+url = 'https://api.camptocamp.org/outings/1657613'
 nb_sorties = 30
 #url = url + str(nb_sorties)
 response = requests.get(url)
@@ -76,21 +76,29 @@ if response.status_code == 200:
         mon_parsing_geom = "$['documents'][" + str(i) + "]['geometry']['geom']"
         geom = jp.parse(mon_parsing_geom)
         result_geom= geom.find(json_object)
+
+        print("Obj Geom","".join(result_geom[0].value))
         
-        mon_parsing_lat = "$.coordinates[0]"
-        mon_parsing_long = "$.coordinates[1]"
+        #mon_parsing_coordo = "$['coordinates']"
+        mon_parsing_coordo = "$['coordinates']"
+        coordo = jp.parse(mon_parsing_coordo)
+        result_coordo = coordo.find(json_object)
+        
+        print(result_coordo[0].value)
+                
+        #mon_parsing_lat = "$.coordinates[0]"
+        #mon_parsing_long = "$.coordinates[1]"
         #lat = jp.parse(mon_parsing_lat)
         #long = jp.parse(mon_parsing_long)
-        result_lat = mon_parsing_lat.find(result_geom)
-        result_long = mon_parsing_long.find(result_geom)
-        #lat = str(result_lat)
+        #result_lat = lat.find(result_geom)
+        #result_long = long.find(result_geom[0].value)
+        
+        #print("lat:",str(result_lat))
         #long = str(result_long)
-        
-        
         
         print(result_title[0].value,";",result_document_ID[0].value,";",result_date[0].value,";"
               ,result_activite[0].value,";")
-        print(type(result_long[0].value))
+        #print(type(result_geom[0].value))
         act = str(result_activite[0].value)
         
         
