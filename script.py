@@ -4,12 +4,10 @@ import json
 import jsonpath_ng as jp
 import ast
 
-url = 'https://api.camptocamp.org/outings/1657613'
+url = 'https://api.camptocamp.org/outings?act=snow_ice_mixed&grat=ED6,ED7'
 nb_sorties = 30
 #url = url + str(nb_sorties)
 response = requests.get(url)
-
-
 
 if response.status_code == 200: 
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -76,15 +74,21 @@ if response.status_code == 200:
         mon_parsing_geom = "$['documents'][" + str(i) + "]['geometry']['geom']"
         geom = jp.parse(mon_parsing_geom)
         result_geom= geom.find(json_object)
-
+        
+        result_geom_json = result_geom[0].value       
         print("Obj Geom","".join(result_geom[0].value))
-        
+        coordinates = result_geom_json['coordinates']
+        x, y = coordinates
+
+        # Afficher les coordonnées
+        print(f"Coordonnées: x={x}, y={y}")
+    
         #mon_parsing_coordo = "$['coordinates']"
-        mon_parsing_coordo = "$['coordinates']"
-        coordo = jp.parse(mon_parsing_coordo)
-        result_coordo = coordo.find(json_object)
+        #mon_parsing_coordo = "$['coordinates']"
+        #coordo = jp.parse(mon_parsing_coordo)
+        #result_coordo = coordo.find(result_geom[0].value)
         
-        print(result_coordo[0].value)
+        #print(result_coordo[0].value)
                 
         #mon_parsing_lat = "$.coordinates[0]"
         #mon_parsing_long = "$.coordinates[1]"

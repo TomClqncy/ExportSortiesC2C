@@ -1,50 +1,28 @@
-import requests
-from bs4 import BeautifulSoup
+from jsonpath_ng import parse
 import json
-import jsonpath_ng as jp
-import ast
 
-url = 'https://api.camptocamp.org/outings/1635187'
-nb_sorties = 1
-#url = url + str(nb_sorties)
-response = requests.get(url)
+# Exemple d'objet JSON (à remplacer par vos données réelles)
+json_object = {
+    "documents": [
+        {"geometry": {"geom": {"type": "Point", "coordinates": [662986.330288, 5334629.563859]}}},
+        # Ajoutez d'autres documents ici si nécessaire
+    ]
+}
 
+# Index à extraire
+i = 0  # Remplacez par l'index correct si nécessaire
 
+# Construire l'expression JSONPath
+jsonpath_expr = parse(f"$.documents[{i}].geometry.geom")
 
-if response.status_code == 200: 
-    soup = BeautifulSoup(response.text, 'html.parser')
-    page_text = soup.get_text(separator=' ', strip=True)
-    json_object = json.loads(page_text)
-    
-    for i in range (nb_sorties) :
-        mon_parsing_title = "$['documents'][" + str(i) + "]['locales'][0]['title']"
-        title = jp.parse(mon_parsing_title)
-        result_title = title.find(json_object)
-        
-        mon_parsing_document_ID = "$['documents'][" + str(i) + "]['document_id']"
-        document_ID = jp.parse(mon_parsing_document_ID)
-        result_document_ID = document_ID.find(json_object)
-        
-        mon_parsing_date = "$['documents'][" + str(i) + "]['date_end']"
-        date = jp.parse(mon_parsing_date)
-        result_date = date.find(json_object)
-        
-        mon_parsing_activite = "$['documents'][" + str(i) + "]['activities']"
-        activite = jp.parse(mon_parsing_activite)
-        result_activite = activite.find(json_object)
-        
-        mon_parsing_cotation = "$['documents'][" + str(i) + "]['weather']"
-        cotation = jp.parse(mon_parsing_cotation)
-        result_cotation = cotation.find(json_object)
-        print("hello",i)
-        
-        print(result_title[0].value,";",result_document_ID[0].value,";",result_date[0].value,";"
-              ,result_activite[0].value,";",result_cotation[0].value)
-    
-    
-    #f = open('/Users/jb.marzolf/Downloads/raph/sortieC2C-api.txt','a')
-    #f.write(page_text)
-    #f.close()
-    
+# Trouver le résultat
+result_geom = jsonpath_expr.find(json_object)
+
+# Vérifier que le résultat n'est pas vide et extraire les coordonnées
+if result_geom:
+    result_geom_json = result_geom[0].value  # Prendre la première correspondance
+    coordinates = result_geom_json['coordinates']
+    x, y = coordinates
+    print(f"x: {x}, y: {y}")
 else:
-    print(f"Erreur {response.status_code}")
+    print("Aucune correspondance trouvée pour le chemin JSONPath.")
