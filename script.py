@@ -50,38 +50,68 @@ if response.status_code == 200:
         result_cotation3 = cotation3.find(json_object)
         
         mon_parsing_cotation4 = "$['documents'][" + str(i) + "]['ice_rating']"
-        cotation4 = jp.parse(mon_parsing_cotation3)
+        cotation4 = jp.parse(mon_parsing_cotation4)
         result_cotation4 = cotation4.find(json_object)
+        
+        mon_parsing_cotation5 = "$['documents'][" + str(i) + "]['ski_rating']"
+        cotation5 = jp.parse(mon_parsing_cotation5)
+        result_cotation5 = cotation5.find(json_object)
+        
+        mon_parsing_cotation6 = "$['documents'][" + str(i) + "]['snowshoe_rating']"
+        cotation6 = jp.parse(mon_parsing_cotation6)
+        result_cotation6 = cotation6.find(json_object)
+        
+        mon_parsing_cotation7 = "$['documents'][" + str(i) + "]['via_ferrata_rating']"
+        cotation7 = jp.parse(mon_parsing_cotation7)
+        result_cotation7 = cotation7.find(json_object)
+        
+        mon_parsing_cotation8 = "$['documents'][" + str(i) + "]['mtb_up_rating']"
+        cotation8 = jp.parse(mon_parsing_cotation8)
+        result_cotation8 = cotation8.find(json_object)
+        
+        mon_parsing_cotation9 = "$['documents'][" + str(i) + "]['mtb_down_rating']"
+        cotation9 = jp.parse(mon_parsing_cotation9)
+        result_cotation9 = cotation9.find(json_object)
+        
+        mon_parsing_coordonnee = "$['documents'][" + str(i) + "]['geometry']['geom']",
+        coordonee = jp.parse(mon_parsing_coordonnee)
+        result_coordonnee= coordonee.find(json_object)
+        geom = str(result_coordonnee[0].value)
         
         
         print(result_title[0].value,";",result_document_ID[0].value,";",result_date[0].value,";"
-              ,result_activite[0].value)
+              ,result_activite[0].value,";",geom)
+        act = str(result_activite[0].value)
+        
         
         try : 
             print(result_cotation[0].value)
         except IndexError:
-            print(result_cotation3[0].value)
-        except IndexError:
-            print(result_cotation2[0].value)
-        except IndexError:
-            print()
-        
+
+            if act == "['skitouring']":
+                print(result_cotation2[0].value,"/",result_cotation5[0].value)
+                
+            elif act == "['hiking']":
+                print(result_cotation3[0].value)
+                
+            elif act == "['rock_climbing']":
+                print(result_cotation1[0].value)
             
+            elif act == "['ice_climbing']":
+                print(result_cotation4[0].value)
             
+            elif act == "['snowshoeing']":
+                print(result_cotation6[0].value)
+                
+            elif act == "['via_ferrata']":
+                print(result_cotation7[0].value)
+                
+            elif act == "['mountain_biking']":
+                print(result_cotation8[0].value,"/",result_cotation9[0].value)
             
-            
-            #if result_activite[0].value == "skitouring":
-               # {
-                #print(result_cotation2[0].value)
-            #}
-            #elif result_activite[0].value == "hiking":
-            #    {
-            #    print(result_cotation3[0].value)
-            #}
-           # elif result_activite[0].value == "ice_climbing":
-           #     {
-           #     print(result_cotation4[0].value)
-           # }
+            else :
+                print("Cotation non rensenseignée")
+                
         
 
     #f = open('/Users/jb.marzolf/Downloads/raph/sortieC2C-api.txt','a')
